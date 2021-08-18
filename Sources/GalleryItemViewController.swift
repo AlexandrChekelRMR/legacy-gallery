@@ -19,6 +19,7 @@ public struct GalleryControls: OptionSet {
     public static let share: GalleryControls = GalleryControls(rawValue: 2)
 }
 
+@available(iOSApplicationExtension, unavailable)
 open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDelegate {
     open var index: Int = 0
 

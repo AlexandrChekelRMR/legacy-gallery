@@ -8,6 +8,7 @@
 
 import UIKit
 
+@available(iOSApplicationExtension, unavailable)
 open class GalleryViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate,
         GalleryZoomTransitionDelegate {
     open lazy var viewerForItem: (GalleryMedia) -> GalleryItemViewController = { item in

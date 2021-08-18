@@ -8,6 +8,7 @@
 
 import UIKit
 
+@available(iOSApplicationExtension, unavailable)
 open class GalleryImageViewController: GalleryItemViewController, UIScrollViewDelegate {
     public let image: GalleryMedia.Image
     private var fullImage: UIImage?
