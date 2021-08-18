@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 
+@available(iOSApplicationExtension, unavailable)
 open class GalleryLightVideoViewController: GalleryItemViewController {
     public let video: GalleryMedia.Video
     private var source: GalleryMedia.VideoSource?
