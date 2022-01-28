@@ -20,6 +20,7 @@
 		B2FA8A3892FCE706373C085D /* GalleryImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FA84CC5AD2805DA189EC51 /* GalleryImageViewController.swift */; };
 		B2FA8B4391C4BE037B5220E7 /* GalleryBasePreviewCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FA8C95457C176073530591 /* GalleryBasePreviewCollectionCell.swift */; };
 		B2FA8CA3D677CC4CAEE53760 /* GalleryItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FA895E131974596F577FA6 /* GalleryItemViewController.swift */; };
+		E0530C2C27A4231F00CE22F8 /* GalleryMediaPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0530C2B27A4231F00CE22F8 /* GalleryMediaPresentable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		B2FA8C95457C176073530591 /* GalleryBasePreviewCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryBasePreviewCollectionCell.swift; sourceTree = "<group>"; };
 		B2FA8CCD633F2A4B54B9939C /* GalleryPreviewCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryPreviewCollectionView.swift; sourceTree = "<group>"; };
 		B2FA8D4F6EE11F5146502729 /* GalleryVideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryVideoView.swift; sourceTree = "<group>"; };
+		E0530C2B27A4231F00CE22F8 /* GalleryMediaPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryMediaPresentable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				B2FA895E131974596F577FA6 /* GalleryItemViewController.swift */,
 				B2FA8C95457C176073530591 /* GalleryBasePreviewCollectionCell.swift */,
 				B2FA898B814875309D02086E /* GalleryZoomTransition.swift */,
+				E0530C2B27A4231F00CE22F8 /* GalleryMediaPresentable.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 				B2FA80D2D3A4C5734E48F153 /* GalleryZoomTransitionController.swift in Sources */,
 				B2FA8448D0ED87E1B02B59ED /* GalleryVideoView.swift in Sources */,
 				B2FA81A7EA80A2A421DE1622 /* GalleryViewController.swift in Sources */,
+				E0530C2C27A4231F00CE22F8 /* GalleryMediaPresentable.swift in Sources */,
 				B2FA885F04395A10996FE1CF /* GalleryVideoViewController.swift in Sources */,
 				B2FA851AD1198137D9D93104 /* GalleryPreviewCollectionView.swift in Sources */,
 				B2FA87F32F448873A2A60E3F /* GalleryLightVideoViewController.swift in Sources */,
