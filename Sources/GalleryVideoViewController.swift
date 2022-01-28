@@ -224,6 +224,15 @@ open class GalleryVideoViewController: GalleryItemViewController {
         guard let sourceUrl = sourceUrl else { return }
 
         let controller = UIActivityViewController(activityItems: [ sourceUrl ], applicationActivities: nil)
+        controller.completionWithItemsHandler = { [weak self] activityType, completed, _, error in
+            guard let self = self else { return }
+
+            if completed {
+                self.shareCompletionHandler?(.success(.video(self.video)), activityType)
+            } else if let error = error {
+                self.shareCompletionHandler?(.failure(error), activityType)
+            }
+        }
         present(controller, animated: true, completion: nil)
     }
 

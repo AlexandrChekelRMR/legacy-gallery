@@ -24,6 +24,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
     open var index: Int = 0
 
     open var closeAction: (() -> Void)?
+    open var shareCompletionHandler: ((Result<GalleryMedia, Error>, UIActivity.ActivityType?) -> Void)?
     open var presenterInterfaceOrientations: (() -> UIInterfaceOrientationMask?)?
     open var statusBarStyle: UIStatusBarStyle = .lightContent
     open var isTransitionEnabled: Bool = true

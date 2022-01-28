@@ -132,6 +132,15 @@ open class GalleryImageViewController: GalleryItemViewController, UIScrollViewDe
         guard let image = fullImage else { return }
 
         let controller = UIActivityViewController(activityItems: [ image ], applicationActivities: nil)
+        controller.completionWithItemsHandler = { [weak self] activityType, completed, _, error in
+            guard let self = self else { return }
+
+            if completed {
+                self.shareCompletionHandler?(.success(.image(self.image)), activityType)
+            } else if let error = error {
+                self.shareCompletionHandler?(.failure(error), activityType)
+            }
+        }
         present(controller, animated: true, completion: nil)
     }
 
