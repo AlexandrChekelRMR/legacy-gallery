@@ -37,7 +37,7 @@ public extension GalleryMediaPresentable {
     }
 
     func zoomTransitionHideViews(hide: Bool) {
-        sourceImageViewProvider().alpha = hide ? 1 : 0
+        sourceImageViewProvider().alpha = hide ? 0 : 1
     }
 
     func zoomTransitionDestinationFrame(for view: UIView, frame: CGRect) -> CGRect {
