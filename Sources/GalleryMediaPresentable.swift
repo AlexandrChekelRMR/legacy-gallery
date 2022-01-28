@@ -30,7 +30,7 @@ public extension GalleryMediaPresentable {
     var zoomTransitionAnimatingView: UIView? {
         let sourceImageView = sourceImageViewProvider()
         let transitionImageView = UIImageView(image: sourceImageView.image)
-        transitionImageView.contentMode = sourceImageView.contentMode
+        transitionImageView.contentMode = .scaleAspectFit
         transitionImageView.clipsToBounds = true
         transitionImageView.layer.cornerRadius = sourceImageView.layer.cornerRadius
         transitionImageView.frame = transitionImageViewFrame
