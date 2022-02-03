@@ -51,9 +51,7 @@ open class GalleryImageViewController: GalleryItemViewController, UIScrollViewDe
         scrollView.canCancelContentTouches = false
         scrollView.delegate = self
         scrollView.backgroundColor = .clear
-        if #available(iOS 11.0, *) {
-            scrollView.contentInsetAdjustmentBehavior = .never
-        }
+        scrollView.contentInsetAdjustmentBehavior = .never
         view.addSubview(scrollView)
 
         imageView.translatesAutoresizingMaskIntoConstraints = true

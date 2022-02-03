@@ -47,10 +47,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
         super.viewDidLoad()
 
         modalPresentationStyle = .fullScreen
-
         extendedLayoutIncludesOpaqueBars = true
-        automaticallyAdjustsScrollViewInsets = false
-
         view.backgroundColor = .black
     }
 
