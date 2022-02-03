@@ -12,7 +12,7 @@ public protocol GalleryMediaPresentable: UIViewController, GalleryZoomTransition
     /// Transition source image view provider.
     var sourceImageViewProvider: () -> UIImageView { get set }
     /// Content mode for image view that is being used during animated transitioning.
-    var transitionImageViewContentMode: UIView.ContentMode { get }
+    var transitionImageViewContentMode: UIView.ContentMode? { get }
 }
 
 public extension GalleryMediaPresentable {
@@ -23,8 +23,8 @@ public extension GalleryMediaPresentable {
 
     // MARK: - GalleryMediaPresentable default implementations
 
-    var transitionImageViewContentMode: UIView.ContentMode {
-        .scaleAspectFit
+    var transitionImageViewContentMode: UIView.ContentMode? {
+        nil
     }
 
     // MARK: - GalleryZoomTransitionDelegate default implementations
@@ -40,7 +40,7 @@ public extension GalleryMediaPresentable {
     var zoomTransitionAnimatingView: UIView? {
         let sourceImageView = sourceImageViewProvider()
         let transitionImageView = UIImageView(image: sourceImageView.image)
-        transitionImageView.contentMode = transitionImageViewContentMode
+        transitionImageView.contentMode = transitionImageViewContentMode ?? sourceImageView.contentMode
         transitionImageView.clipsToBounds = true
         transitionImageView.layer.cornerRadius = sourceImageView.layer.cornerRadius
         transitionImageView.frame = transitionImageViewFrame
