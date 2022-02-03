@@ -268,10 +268,27 @@ open class GalleryLightVideoViewController: GalleryItemViewController {
     }
 
     open override func shareTap() {
-        guard let sourceUrl = sourceUrl else { return }
+        if let shareHandler = shareHandler {
+            galleryShareButton?.isEnabled = false
+            galleryShareButton?.isLoading = true
 
-        let controller = UIActivityViewController(activityItems: [sourceUrl], applicationActivities: nil)
-        present(controller, animated: true, completion: nil)
+            shareHandler(.video(video)) { [weak self] in
+                self?.galleryShareButton?.isEnabled = true
+                self?.galleryShareButton?.isLoading = false
+            }
+        } else if let sourceUrl = sourceUrl {
+            let controller = UIActivityViewController(activityItems: [ sourceUrl ], applicationActivities: nil)
+            controller.completionWithItemsHandler = { [weak self] activityType, completed, _, error in
+                guard let self = self else { return }
+
+                if completed {
+                    self.shareCompletionHandler?(.success(.video(self.video)), activityType)
+                } else if let error = error {
+                    self.shareCompletionHandler?(.failure(error), activityType)
+                }
+            }
+            present(controller, animated: true, completion: nil)
+        }
     }
 
     // MARK: - Transition

@@ -32,6 +32,8 @@ open class GalleryViewController: UIPageViewController, UIPageViewControllerData
     open var initialControlsVisibility: Bool = false
     open private(set) var controlsVisibility: Bool = false
     open var controlsVisibilityChanged: ((Bool) -> Void)?
+
+    open var shareHandler: ((GalleryMedia, @escaping () -> Void) -> Void)?
     open var shareCompletionHandler: ((Result<GalleryMedia, Error>, UIActivity.ActivityType?) -> Void)?
 
     open var transitionController: GalleryZoomTransitionController? {
@@ -42,7 +44,7 @@ open class GalleryViewController: UIPageViewController, UIPageViewControllerData
 
     public let titleView: UIView = UIView()
     public let closeButton: UIButton = UIButton(type: .custom)
-    public let shareButton: UIButton = UIButton(type: .custom)
+    public let shareButton: UIButton = GalleryShareButton(type: .custom)
     private let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
 
     private var lastControlsVisibility: Bool = false
@@ -87,6 +89,7 @@ open class GalleryViewController: UIPageViewController, UIPageViewControllerData
         shareButton.translatesAutoresizingMaskIntoConstraints = false
         shareButton.setTitle("Share", for: .normal)
         shareButton.setTitleColor(.white, for: .normal)
+        shareButton.setTitleColor(.clear, for: .disabled)
         shareButton.backgroundColor = .clear
         shareButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         titleView.addSubview(shareButton)
@@ -239,9 +242,8 @@ open class GalleryViewController: UIPageViewController, UIPageViewControllerData
         controller.closeAction = { [weak self] in
             self?.dismiss(animated: true, completion: nil)
         }
-        controller.shareCompletionHandler = { [weak self] result, activityType in
-            self?.shareCompletionHandler?(result, activityType)
-        }
+        controller.shareHandler = shareHandler
+        controller.shareCompletionHandler = shareCompletionHandler
         controller.presenterInterfaceOrientations = { [weak self] in
             self?.presentingViewController?.supportedInterfaceOrientations
         }

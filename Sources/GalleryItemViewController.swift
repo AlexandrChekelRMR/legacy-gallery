@@ -24,6 +24,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
     open var index: Int = 0
 
     open var closeAction: (() -> Void)?
+    open var shareHandler: ((GalleryMedia, @escaping () -> Void) -> Void)?
     open var shareCompletionHandler: ((Result<GalleryMedia, Error>, UIActivity.ActivityType?) -> Void)?
     open var presenterInterfaceOrientations: (() -> UIInterfaceOrientationMask?)?
     open var statusBarStyle: UIStatusBarStyle = .lightContent
@@ -73,11 +74,20 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
 
     public let titleView: UIView = UIView()
     public let closeButton: UIButton = UIButton(type: .custom)
-    public let shareButton: UIButton = UIButton(type: .custom)
+    public let shareButton: UIButton = GalleryShareButton(type: .custom)
     public let loadingIndicatorView: UIActivityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
     public let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
 
     internal var statusBarHidden: Bool = false
+
+    internal var galleryShareButton: GalleryShareButton? {
+        let galleryViewController = parent as? GalleryViewController
+        let sharedControls = galleryViewController?.sharedControls ?? false
+
+        return sharedControls
+            ? galleryViewController?.shareButton as? GalleryShareButton
+            : shareButton as? GalleryShareButton
+    }
 
     open var isShareAvailable: Bool {
         false
@@ -115,6 +125,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
         shareButton.translatesAutoresizingMaskIntoConstraints = false
         shareButton.setTitle("Share", for: .normal)
         shareButton.setTitleColor(.white, for: .normal)
+        shareButton.setTitleColor(.clear, for: .disabled)
         shareButton.backgroundColor = .clear
         shareButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         titleView.addSubview(shareButton)

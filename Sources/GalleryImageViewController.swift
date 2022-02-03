@@ -129,19 +129,27 @@ open class GalleryImageViewController: GalleryItemViewController, UIScrollViewDe
     }
 
     open override func shareTap() {
-        guard let image = fullImage else { return }
+        if let shareHandler = shareHandler {
+            galleryShareButton?.isEnabled = false
+            galleryShareButton?.isLoading = true
 
-        let controller = UIActivityViewController(activityItems: [ image ], applicationActivities: nil)
-        controller.completionWithItemsHandler = { [weak self] activityType, completed, _, error in
-            guard let self = self else { return }
-
-            if completed {
-                self.shareCompletionHandler?(.success(.image(self.image)), activityType)
-            } else if let error = error {
-                self.shareCompletionHandler?(.failure(error), activityType)
+            shareHandler(.image(image)) { [weak self] in
+                self?.galleryShareButton?.isEnabled = true
+                self?.galleryShareButton?.isLoading = false
             }
+        } else if let fullImage = fullImage {
+            let controller = UIActivityViewController(activityItems: [ fullImage ], applicationActivities: nil)
+            controller.completionWithItemsHandler = { [weak self] activityType, completed, _, error in
+                guard let self = self else { return }
+
+                if completed {
+                    self.shareCompletionHandler?(.success(.image(self.image)), activityType)
+                } else if let error = error {
+                    self.shareCompletionHandler?(.failure(error), activityType)
+                }
+            }
+            present(controller, animated: true, completion: nil)
         }
-        present(controller, animated: true, completion: nil)
     }
 
     // MARK: - Image
