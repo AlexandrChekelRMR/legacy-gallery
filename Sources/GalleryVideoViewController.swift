@@ -54,8 +54,7 @@ open class GalleryVideoViewController: GalleryItemViewController {
         // Constraints
 
         NSLayoutConstraint.activate([
-            // Adding an inset to the top constraint to avoid AVPlayerViewController's bugs of fullscreen determination.
-            playerController.view.topAnchor.constraint(equalTo: view.topAnchor, constant: topInset),
+            playerController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             playerController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             playerController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             playerController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
