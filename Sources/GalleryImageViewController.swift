@@ -127,13 +127,13 @@ open class GalleryImageViewController: GalleryItemViewController, UIScrollViewDe
     }
 
     open override func shareTap() {
-        if let shareHandler = shareHandler {
+        if let shareAction = shareAction {
             galleryShareButton?.isEnabled = false
             galleryShareButton?.isLoading = true
 
-            shareHandler(.image(image)) { [weak self] in
-                self?.galleryShareButton?.isEnabled = true
-                self?.galleryShareButton?.isLoading = false
+            shareAction(.image(image)) { [weak galleryShareButton] in
+                galleryShareButton?.isEnabled = true
+                galleryShareButton?.isLoading = false
             }
         } else if let fullImage = fullImage {
             let controller = UIActivityViewController(activityItems: [ fullImage ], applicationActivities: nil)

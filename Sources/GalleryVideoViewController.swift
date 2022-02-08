@@ -220,13 +220,13 @@ open class GalleryVideoViewController: GalleryItemViewController {
     }
 
     open override func shareTap() {
-        if let shareHandler = shareHandler {
+        if let shareAction = shareAction {
             galleryShareButton?.isEnabled = false
             galleryShareButton?.isLoading = true
 
-            shareHandler(.video(video)) { [weak self] in
-                self?.galleryShareButton?.isEnabled = true
-                self?.galleryShareButton?.isLoading = false
+            shareAction(.video(video)) { [weak galleryShareButton] in
+                galleryShareButton?.isEnabled = true
+                galleryShareButton?.isLoading = false
             }
         } else if let sourceUrl = sourceUrl {
             let controller = UIActivityViewController(activityItems: [ sourceUrl ], applicationActivities: nil)

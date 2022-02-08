@@ -24,7 +24,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
     open var index: Int = 0
 
     open var closeAction: (() -> Void)?
-    open var shareHandler: ((GalleryMedia, @escaping () -> Void) -> Void)?
+    open var shareAction: ((GalleryMedia, @escaping () -> Void) -> Void)?
     open var shareCompletionHandler: ((Result<GalleryMedia, Error>, UIActivity.ActivityType?) -> Void)?
     open var presenterInterfaceOrientations: (() -> UIInterfaceOrientationMask?)?
     open var statusBarStyle: UIStatusBarStyle = .lightContent
@@ -75,7 +75,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
 
     internal var statusBarHidden: Bool = false
 
-    internal var galleryShareButton: GalleryShareButton? {
+    var galleryShareButton: GalleryShareButton? {
         let galleryViewController = parent as? GalleryViewController
         let sharedControls = galleryViewController?.sharedControls ?? false
 

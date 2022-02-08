@@ -33,7 +33,7 @@ open class GalleryViewController: UIPageViewController, UIPageViewControllerData
     open private(set) var controlsVisibility: Bool = false
     open var controlsVisibilityChanged: ((Bool) -> Void)?
 
-    open var shareHandler: ((GalleryMedia, @escaping () -> Void) -> Void)?
+    open var shareAction: ((GalleryMedia, @escaping () -> Void) -> Void)?
     open var shareCompletionHandler: ((Result<GalleryMedia, Error>, UIActivity.ActivityType?) -> Void)?
 
     open var transitionController: GalleryZoomTransitionController? {
@@ -221,7 +221,7 @@ open class GalleryViewController: UIPageViewController, UIPageViewControllerData
         controller.closeAction = { [weak self] in
             self?.dismiss(animated: true, completion: nil)
         }
-        controller.shareHandler = shareHandler
+        controller.shareAction = shareAction
         controller.shareCompletionHandler = shareCompletionHandler
         controller.presenterInterfaceOrientations = { [weak self] in
             self?.presentingViewController?.supportedInterfaceOrientations

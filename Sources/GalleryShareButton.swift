@@ -25,8 +25,14 @@ internal class GalleryShareButton: UIButton {
 
     override var contentEdgeInsets: UIEdgeInsets {
         didSet {
-            let isRTL = semanticContentAttribute == .forceRightToLeft
-            activityIndicatorTrailingConstraint.constant = isRTL ? contentEdgeInsets.left : contentEdgeInsets.right
+            switch effectiveUserInterfaceLayoutDirection {
+                case .leftToRight:
+                    activityIndicatorTrailingConstraint.constant = contentEdgeInsets.right
+                case .rightToLeft:
+                    activityIndicatorTrailingConstraint.constant = contentEdgeInsets.left
+                @unknown default:
+                    break
+            }
         }
     }
 
