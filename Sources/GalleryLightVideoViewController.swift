@@ -192,7 +192,7 @@ open class GalleryLightVideoViewController: GalleryItemViewController {
     }
 
     @objc private func playbackEnded(_ notification: Notification) {
-        (notification.object as? AVPlayerItem)?.seek(to: .zero)
+        (notification.object as? AVPlayerItem)?.seek(to: .zero, completionHandler: nil)
         if !loop {
             pause()
         }
@@ -268,10 +268,27 @@ open class GalleryLightVideoViewController: GalleryItemViewController {
     }
 
     open override func shareTap() {
-        guard let sourceUrl = sourceUrl else { return }
+        if let shareAction = shareAction {
+            galleryShareButton?.isEnabled = false
+            galleryShareButton?.isLoading = true
 
-        let controller = UIActivityViewController(activityItems: [sourceUrl], applicationActivities: nil)
-        present(controller, animated: true, completion: nil)
+            shareAction(.video(video)) { [weak galleryShareButton] in
+                galleryShareButton?.isEnabled = true
+                galleryShareButton?.isLoading = false
+            }
+        } else if let sourceUrl = sourceUrl {
+            let controller = UIActivityViewController(activityItems: [ sourceUrl ], applicationActivities: nil)
+            controller.completionWithItemsHandler = { [weak self] activityType, completed, _, error in
+                guard let self = self else { return }
+
+                if completed {
+                    self.shareCompletionHandler?(.success(.video(self.video)), activityType)
+                } else if let error = error {
+                    self.shareCompletionHandler?(.failure(error), activityType)
+                }
+            }
+            present(controller, animated: true, completion: nil)
+        }
     }
 
     // MARK: - Transition

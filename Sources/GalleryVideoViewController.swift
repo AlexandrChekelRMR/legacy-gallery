@@ -54,8 +54,7 @@ open class GalleryVideoViewController: GalleryItemViewController {
         // Constraints
 
         NSLayoutConstraint.activate([
-            // Adding an inset to the top constraint to avoid AVPlayerViewController's bugs of fullscreen determination.
-            playerController.view.topAnchor.constraint(equalTo: view.topAnchor, constant: topInset),
+            playerController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             playerController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             playerController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             playerController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -221,10 +220,27 @@ open class GalleryVideoViewController: GalleryItemViewController {
     }
 
     open override func shareTap() {
-        guard let sourceUrl = sourceUrl else { return }
+        if let shareAction = shareAction {
+            galleryShareButton?.isEnabled = false
+            galleryShareButton?.isLoading = true
 
-        let controller = UIActivityViewController(activityItems: [ sourceUrl ], applicationActivities: nil)
-        present(controller, animated: true, completion: nil)
+            shareAction(.video(video)) { [weak galleryShareButton] in
+                galleryShareButton?.isEnabled = true
+                galleryShareButton?.isLoading = false
+            }
+        } else if let sourceUrl = sourceUrl {
+            let controller = UIActivityViewController(activityItems: [ sourceUrl ], applicationActivities: nil)
+            controller.completionWithItemsHandler = { [weak self] activityType, completed, _, error in
+                guard let self = self else { return }
+
+                if completed {
+                    self.shareCompletionHandler?(.success(.video(self.video)), activityType)
+                } else if let error = error {
+                    self.shareCompletionHandler?(.failure(error), activityType)
+                }
+            }
+            present(controller, animated: true, completion: nil)
+        }
     }
 
     // MARK: - Transition

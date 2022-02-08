@@ -51,9 +51,7 @@ open class GalleryImageViewController: GalleryItemViewController, UIScrollViewDe
         scrollView.canCancelContentTouches = false
         scrollView.delegate = self
         scrollView.backgroundColor = .clear
-        if #available(iOS 11.0, *) {
-            scrollView.contentInsetAdjustmentBehavior = .never
-        }
+        scrollView.contentInsetAdjustmentBehavior = .never
         view.addSubview(scrollView)
 
         imageView.translatesAutoresizingMaskIntoConstraints = true
@@ -129,10 +127,27 @@ open class GalleryImageViewController: GalleryItemViewController, UIScrollViewDe
     }
 
     open override func shareTap() {
-        guard let image = fullImage else { return }
+        if let shareAction = shareAction {
+            galleryShareButton?.isEnabled = false
+            galleryShareButton?.isLoading = true
 
-        let controller = UIActivityViewController(activityItems: [ image ], applicationActivities: nil)
-        present(controller, animated: true, completion: nil)
+            shareAction(.image(image)) { [weak galleryShareButton] in
+                galleryShareButton?.isEnabled = true
+                galleryShareButton?.isLoading = false
+            }
+        } else if let fullImage = fullImage {
+            let controller = UIActivityViewController(activityItems: [ fullImage ], applicationActivities: nil)
+            controller.completionWithItemsHandler = { [weak self] activityType, completed, _, error in
+                guard let self = self else { return }
+
+                if completed {
+                    self.shareCompletionHandler?(.success(.image(self.image)), activityType)
+                } else if let error = error {
+                    self.shareCompletionHandler?(.failure(error), activityType)
+                }
+            }
+            present(controller, animated: true, completion: nil)
+        }
     }
 
     // MARK: - Image

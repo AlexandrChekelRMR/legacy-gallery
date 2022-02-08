@@ -24,6 +24,8 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
     open var index: Int = 0
 
     open var closeAction: (() -> Void)?
+    open var shareAction: ((GalleryMedia, @escaping () -> Void) -> Void)?
+    open var shareCompletionHandler: ((Result<GalleryMedia, Error>, UIActivity.ActivityType?) -> Void)?
     open var presenterInterfaceOrientations: (() -> UIInterfaceOrientationMask?)?
     open var statusBarStyle: UIStatusBarStyle = .lightContent
     open var isTransitionEnabled: Bool = true
@@ -45,10 +47,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
         super.viewDidLoad()
 
         modalPresentationStyle = .fullScreen
-
         extendedLayoutIncludesOpaqueBars = true
-        automaticallyAdjustsScrollViewInsets = false
-
         view.backgroundColor = .black
     }
 
@@ -70,25 +69,23 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
 
     // MARK: - Controls
 
-    public let titleView: UIView = UIView()
-    public let closeButton: UIButton = UIButton(type: .custom)
-    public let shareButton: UIButton = UIButton(type: .custom)
+    public let titleView: GalleryTitleView = GalleryTitleView()
     public let loadingIndicatorView: UIActivityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
-    public let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
+    public let tapGestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer()
 
     internal var statusBarHidden: Bool = false
 
-    open var isShareAvailable: Bool {
-        false
+    var galleryShareButton: GalleryShareButton? {
+        let galleryViewController = parent as? GalleryViewController
+        let sharedControls = galleryViewController?.sharedControls ?? false
+
+        return sharedControls
+            ? galleryViewController?.titleView.shareButton as? GalleryShareButton
+            : titleView.shareButton as? GalleryShareButton
     }
 
-    open var topInset: CGFloat {
-        var topInset: CGFloat = 0
-        if #available(iOS 11.0, *) {
-            topInset = UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0
-        }
-        topInset = max(topInset, 20)
-        return topInset
+    open var isShareAvailable: Bool {
+        false
     }
 
     open func setupCommonControls() {
@@ -104,24 +101,24 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
         titleView.isUserInteractionEnabled = true
         view.addSubview(titleView)
 
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-        closeButton.setTitle("Close", for: .normal)
-        closeButton.setTitleColor(.white, for: .normal)
-        closeButton.backgroundColor = .clear
-        closeButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        titleView.addSubview(closeButton)
+        titleView.closeButton.setTitle("Close", for: .normal)
+        titleView.closeButton.setTitleColor(.white, for: .normal)
+        titleView.closeButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
 
-        shareButton.translatesAutoresizingMaskIntoConstraints = false
-        shareButton.setTitle("Share", for: .normal)
-        shareButton.setTitleColor(.white, for: .normal)
-        shareButton.backgroundColor = .clear
-        shareButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        titleView.addSubview(shareButton)
+        titleView.shareButton.setTitle("Share", for: .normal)
+        titleView.shareButton.setTitleColor(.white, for: .normal)
+        titleView.shareButton.setTitleColor(.clear, for: .disabled)
+        titleView.shareButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
 
-        closeButton.addTarget(self, action: #selector(closeTap), for: .touchUpInside)
-        shareButton.addTarget(self, action: #selector(shareTap), for: .touchUpInside)
-        tapGesture.addTarget(self, action: #selector(toggleTap))
-        view.addGestureRecognizer(tapGesture)
+        titleView.closeAction = { [unowned self] in
+            closeTap()
+        }
+        titleView.shareAction = { [unowned self] in
+            shareTap()
+        }
+
+        tapGestureRecognizer.addTarget(self, action: #selector(toggleTap))
+        view.addGestureRecognizer(tapGestureRecognizer)
 
         // Loading Indicator
 
@@ -134,15 +131,8 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
 
         NSLayoutConstraint.activate([
             titleView.topAnchor.constraint(equalTo: view.topAnchor),
-            titleView.heightAnchor.constraint(equalToConstant: topInset + 44),
             titleView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            closeButton.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
-            closeButton.leadingAnchor.constraint(equalTo: titleView.leadingAnchor),
-            closeButton.heightAnchor.constraint(equalToConstant: 44),
-            shareButton.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
-            shareButton.trailingAnchor.constraint(equalTo: titleView.trailingAnchor),
-            shareButton.heightAnchor.constraint(equalToConstant: 44),
             loadingIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
@@ -186,7 +176,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
         showControls(!controlsVisibility, animated: true)
     }
 
-    @objc open func closeTap() {
+    open func closeTap() {
         isTransitioning = true
 
         close()
@@ -200,7 +190,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
         }
     }
 
-    @objc open func shareTap() {
+    open func shareTap() {
         // to be overridden
     }
 
@@ -211,7 +201,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
         } else {
             controls.remove(.close)
         }
-        closeButton.isHidden = !closeAvailable
+        titleView.closeButton.isHidden = !closeAvailable
 
         // Share only local videos
         let shareAvailable = isShareAvailable && availableControls.contains(.share)
@@ -220,7 +210,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
         } else {
             controls.remove(.share)
         }
-        shareButton.isEnabled = shareAvailable
+        titleView.shareButton.isEnabled = shareAvailable
 
         controlsChanged?()
     }

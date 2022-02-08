@@ -20,6 +20,9 @@
 		B2FA8A3892FCE706373C085D /* GalleryImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FA84CC5AD2805DA189EC51 /* GalleryImageViewController.swift */; };
 		B2FA8B4391C4BE037B5220E7 /* GalleryBasePreviewCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FA8C95457C176073530591 /* GalleryBasePreviewCollectionCell.swift */; };
 		B2FA8CA3D677CC4CAEE53760 /* GalleryItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FA895E131974596F577FA6 /* GalleryItemViewController.swift */; };
+		E0530C2C27A4231F00CE22F8 /* GalleryMediaPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0530C2B27A4231F00CE22F8 /* GalleryMediaPresentable.swift */; };
+		E0744D1327A9E96700DE00F8 /* GalleryShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0744D1227A9E96700DE00F8 /* GalleryShareButton.swift */; };
+		E0C13B5F27B245D90093905B /* GalleryTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C13B5E27B245D90093905B /* GalleryTitleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,9 @@
 		B2FA8C95457C176073530591 /* GalleryBasePreviewCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryBasePreviewCollectionCell.swift; sourceTree = "<group>"; };
 		B2FA8CCD633F2A4B54B9939C /* GalleryPreviewCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryPreviewCollectionView.swift; sourceTree = "<group>"; };
 		B2FA8D4F6EE11F5146502729 /* GalleryVideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryVideoView.swift; sourceTree = "<group>"; };
+		E0530C2B27A4231F00CE22F8 /* GalleryMediaPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryMediaPresentable.swift; sourceTree = "<group>"; };
+		E0744D1227A9E96700DE00F8 /* GalleryShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryShareButton.swift; sourceTree = "<group>"; };
+		E0C13B5E27B245D90093905B /* GalleryTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryTitleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +98,9 @@
 				B2FA895E131974596F577FA6 /* GalleryItemViewController.swift */,
 				B2FA8C95457C176073530591 /* GalleryBasePreviewCollectionCell.swift */,
 				B2FA898B814875309D02086E /* GalleryZoomTransition.swift */,
+				E0530C2B27A4231F00CE22F8 /* GalleryMediaPresentable.swift */,
+				E0744D1227A9E96700DE00F8 /* GalleryShareButton.swift */,
+				E0C13B5E27B245D90093905B /* GalleryTitleView.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -199,12 +208,15 @@
 				B2FA80D2D3A4C5734E48F153 /* GalleryZoomTransitionController.swift in Sources */,
 				B2FA8448D0ED87E1B02B59ED /* GalleryVideoView.swift in Sources */,
 				B2FA81A7EA80A2A421DE1622 /* GalleryViewController.swift in Sources */,
+				E0530C2C27A4231F00CE22F8 /* GalleryMediaPresentable.swift in Sources */,
 				B2FA885F04395A10996FE1CF /* GalleryVideoViewController.swift in Sources */,
 				B2FA851AD1198137D9D93104 /* GalleryPreviewCollectionView.swift in Sources */,
 				B2FA87F32F448873A2A60E3F /* GalleryLightVideoViewController.swift in Sources */,
 				B2FA80AAE18C64101614FB6F /* GalleryPreviewCollectionCell.swift in Sources */,
 				B2FA8CA3D677CC4CAEE53760 /* GalleryItemViewController.swift in Sources */,
+				E0C13B5F27B245D90093905B /* GalleryTitleView.swift in Sources */,
 				B2FA8B4391C4BE037B5220E7 /* GalleryBasePreviewCollectionCell.swift in Sources */,
+				E0744D1327A9E96700DE00F8 /* GalleryShareButton.swift in Sources */,
 				B2FA8997834DBB8ED8472D6B /* GalleryZoomTransition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -243,7 +255,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
@@ -279,7 +291,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
@@ -324,7 +336,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "LegacyGallery-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -376,7 +388,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "LegacyGallery-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.eugene.LegacyGallery-iOS";
