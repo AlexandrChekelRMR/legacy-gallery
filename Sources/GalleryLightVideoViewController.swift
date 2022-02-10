@@ -54,12 +54,7 @@ open class GalleryLightVideoViewController: GalleryItemViewController {
         view.addSubview(previewImageView)
 
         progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.trackTintColor = .lightGray.withAlphaComponent(0.5)
-        progressView.progressTintColor = .white
-        progressView.layer.shadowColor = UIColor.black.cgColor
-        progressView.layer.shadowRadius = 10
-        progressView.layer.shadowOpacity = 0.5
-        progressView.layer.shadowOffset = .zero
+        progressView.trackTintColor = .clear
         view.addSubview(progressView)
 
         // Constraints
@@ -74,9 +69,9 @@ open class GalleryLightVideoViewController: GalleryItemViewController {
             previewImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             previewImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             progressView.heightAnchor.constraint(equalToConstant: 2),
-            progressView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32),
-            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 32),
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: progressView.trailingAnchor, constant: 32)
+            progressView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
 
         // Other
@@ -103,12 +98,6 @@ open class GalleryLightVideoViewController: GalleryItemViewController {
         super.viewWillDisappear(animated)
 
         pause()
-    }
-
-    override open func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        progressView.layer.shadowPath = UIBezierPath(rect: progressView.bounds).cgPath
     }
 
     // MARK: - Controls

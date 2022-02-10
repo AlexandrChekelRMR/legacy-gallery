@@ -51,11 +51,13 @@ open class GalleryVideoViewController: GalleryItemViewController {
         previewImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(previewImageView)
 
+        setupCommonControls()
+
         // Constraints
 
         NSLayoutConstraint.activate([
-            playerController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            playerController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            playerController.view.topAnchor.constraint(equalTo: titleView.bottomAnchor),
+            playerController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             playerController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             playerController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             previewImageView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -69,7 +71,6 @@ open class GalleryVideoViewController: GalleryItemViewController {
         playerController.didMove(toParent: self)
 
         setupTransition()
-        setupCommonControls()
         setupAppearance?(self)
 
         updatePreviewImage()
