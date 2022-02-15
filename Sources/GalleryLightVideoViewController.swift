@@ -257,7 +257,8 @@ open class GalleryLightVideoViewController: GalleryItemViewController {
     }
 
     open override var isShareAvailable: Bool {
-        sourceUrl?.isFileURL ?? false
+        let isFileUrl = sourceUrl?.isFileURL ?? false
+        return shareAction == nil ? isFileUrl : true
     }
 
     open override func closeTap() {

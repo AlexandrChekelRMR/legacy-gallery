@@ -123,7 +123,8 @@ open class GalleryImageViewController: GalleryItemViewController, UIScrollViewDe
     // MARK: - Controls
 
     open override var isShareAvailable: Bool {
-        fullImage != nil
+        let isFullImageAvailable = fullImage != nil
+        return shareAction == nil ? isFullImageAvailable : true
     }
 
     open override func shareTap() {
