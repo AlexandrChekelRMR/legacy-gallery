@@ -144,6 +144,8 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
             titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             loadingIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            retryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            retryButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
 
         // Initial state
