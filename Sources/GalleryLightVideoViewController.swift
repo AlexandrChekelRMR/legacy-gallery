@@ -112,6 +112,10 @@ open class GalleryLightVideoViewController: GalleryItemViewController {
         }
     }
 
+    open override func retryTap() {
+        load()
+    }
+
     // MARK: - Logic
 
     private func load() {
@@ -119,17 +123,20 @@ open class GalleryLightVideoViewController: GalleryItemViewController {
             load(source: source)
         } else if let videoLoader = video.videoLoader {
             loadingIndicatorView.startAnimating()
+            retryButton.isHidden = true
 
             videoLoader { [weak self] result in
                 guard let self = self else { return }
 
-                self.loadingIndicatorView.stopAnimating()
-
                 switch result {
                     case .success(let source):
+                        self.loadingIndicatorView.stopAnimating()
                         self.load(source: source)
                     case .failure:
-                        break
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.loadingIndicatorView.stopAnimating()
+                            self.retryButton.isHidden = self.showRetryButton ? false : true
+                        }
                 }
             }
         }
