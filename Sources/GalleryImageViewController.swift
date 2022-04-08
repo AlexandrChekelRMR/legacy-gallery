@@ -185,6 +185,11 @@ open class GalleryImageViewController: GalleryItemViewController, UIScrollViewDe
                     }
                 case .failure:
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        if self.showRetryButton {
+                            self.addFadeTransition(view: self.imageView)
+                            self.imageView.image = nil
+                        }
+
                         self.loadingIndicatorView.stopAnimating()
                         self.retryButton.isHidden = self.showRetryButton ? false : true
                     }
