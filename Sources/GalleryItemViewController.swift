@@ -30,6 +30,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
     open var statusBarStyle: UIStatusBarStyle = .lightContent
     open var isTransitionEnabled: Bool = true
 
+    open var showRetryButton: Bool = false
     open var autoplay: Bool = true
     open var sharedControls: Bool = true
     open var availableControls: GalleryControls = [ .close, .share ]
@@ -71,6 +72,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
 
     public let titleView: GalleryTitleView = GalleryTitleView()
     public let loadingIndicatorView: UIActivityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
+    public let retryButton: UIButton = UIButton(type: .custom)
     public let tapGestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer()
 
     internal var statusBarHidden: Bool = false
@@ -127,6 +129,13 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
         loadingIndicatorView.color = .white
         view.addSubview(loadingIndicatorView)
 
+        // Retry button
+
+        retryButton.translatesAutoresizingMaskIntoConstraints = false
+        retryButton.addTarget(self, action: #selector(retryTap), for: .touchUpInside)
+        retryButton.isHidden = true
+        view.addSubview(retryButton)
+
         // Constraints
 
         NSLayoutConstraint.activate([
@@ -135,6 +144,8 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
             titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             loadingIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            retryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            retryButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
 
         // Initial state
@@ -176,6 +187,10 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
         showControls(!controlsVisibility, animated: true)
     }
 
+    @objc open func retryTap() {
+        // To be overriden
+    }
+
     open func closeTap() {
         isTransitioning = true
 
@@ -191,7 +206,7 @@ open class GalleryItemViewController: UIViewController, GalleryZoomTransitionDel
     }
 
     open func shareTap() {
-        // to be overridden
+        // To be overriden
     }
 
     internal func updateControls() {

@@ -127,6 +127,10 @@ open class GalleryImageViewController: GalleryItemViewController, UIScrollViewDe
         return shareAction == nil ? isFullImageAvailable : true
     }
 
+    open override func retryTap() {
+        load()
+    }
+
     open override func shareTap() {
         if let shareAction = shareAction {
             galleryShareButton?.isEnabled = false
@@ -156,15 +160,16 @@ open class GalleryImageViewController: GalleryItemViewController, UIScrollViewDe
     private func load() {
         guard let fullImageLoader = image.fullImageLoader, fullImage == nil else { return }
 
+        retryButton.isHidden = true
         loadingIndicatorView.startAnimating()
 
         fullImageLoader { [weak self] result in
             guard let self = self else { return }
 
-            self.loadingIndicatorView.stopAnimating()
-
             switch result {
                 case .success(let image):
+                    self.loadingIndicatorView.stopAnimating()
+
                     self.fullImage = image
                     self.addFadeTransition(view: self.imageView)
                     self.imageView.image = image
@@ -179,7 +184,15 @@ open class GalleryImageViewController: GalleryItemViewController, UIScrollViewDe
                         self.setupScrollView(with: self.scrollSize)
                     }
                 case .failure:
-                    break
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        if self.showRetryButton {
+                            self.addFadeTransition(view: self.imageView)
+                            self.imageView.image = nil
+                        }
+
+                        self.loadingIndicatorView.stopAnimating()
+                        self.retryButton.isHidden = self.showRetryButton ? false : true
+                    }
             }
 
             self.updateControls()

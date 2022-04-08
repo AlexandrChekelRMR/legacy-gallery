@@ -30,6 +30,8 @@ open class GalleryViewController: UIPageViewController, UIPageViewControllerData
     open var sharedControls: Bool = false
     open var availableControls: GalleryControls = [ .close, .share ]
     open var initialControlsVisibility: Bool = false
+    open var retryButtonImage: UIImage?
+    open var showRetryButton: Bool = false
     open private(set) var controlsVisibility: Bool = false
     open var controlsVisibilityChanged: ((Bool) -> Void)?
 
@@ -208,6 +210,8 @@ open class GalleryViewController: UIPageViewController, UIPageViewControllerData
         controller.autoplay = autoplay
         controller.sharedControls = sharedControls
         controller.availableControls = availableControls
+        controller.showRetryButton = showRetryButton
+        controller.retryButton.setImage(retryButtonImage, for: .normal)
         controller.controlsChanged = { [weak self] in
             self?.updateControls()
         }
