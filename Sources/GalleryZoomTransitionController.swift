@@ -12,14 +12,17 @@ open class GalleryZoomTransitionController: NSObject, UIViewControllerTransition
     open weak var sourceTransition: GalleryZoomTransitionDelegate?
     open var prepareToDismiss: (() -> Void)?
 
-    public init(sourceTransitionDelegate sourceTransition: GalleryZoomTransitionDelegate) {
+    public init(sourceTransitionDelegate sourceTransition: GalleryZoomTransitionDelegate? = nil) {
         self.sourceTransition = sourceTransition
     }
 
     open func animationController(
         forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController
     ) -> UIViewControllerAnimatedTransitioning? {
-        guard let destinationTransition = presented as? GalleryZoomTransitionDelegate else { return nil }
+        guard
+            let sourceTransition = sourceTransition ?? source as? GalleryZoomTransitionDelegate,
+            let destinationTransition = presented as? GalleryZoomTransitionDelegate
+        else { return nil }
 
         let transition = GalleryZoomTransition(interactive: false)
         transition.sourceTransition = sourceTransition
