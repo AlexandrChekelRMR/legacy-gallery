@@ -24,6 +24,8 @@ open class GalleryZoomTransitionController: NSObject, UIViewControllerTransition
             let destinationTransition = presented as? GalleryZoomTransitionDelegate
         else { return nil }
 
+        self.sourceTransition = sourceTransition
+
         let transition = GalleryZoomTransition(interactive: false)
         transition.sourceTransition = sourceTransition
         transition.destinationTransition = destinationTransition
